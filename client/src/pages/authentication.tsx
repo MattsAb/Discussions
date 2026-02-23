@@ -27,15 +27,17 @@ export default function Authentication () {
                     await login(response.data.token);
 
                     navigate('/');
-            } catch (err) {
+            } catch (err: unknown) {
                 if (axios.isAxiosError(err)) {
-                    console.log(err.message);
-                    setErrorMessage(err.message)
+                    const backendMessage = err.response?.data?.message ?? err.message;
+                    console.log(backendMessage);
+                    setErrorMessage(backendMessage);
+
                 } else {
                     console.log("Unexpected error", err);
-                    setErrorMessage("Unexpected error")
+                    setErrorMessage("Unexpected error");
                 }
-            }
+                }
     }
 
     return (

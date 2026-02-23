@@ -21,17 +21,19 @@ export default function CreateDiscussion() {
             body: body
           })
 
-          navigate('/')
+          navigate('/');
           
-        } catch (err) {
-                if (axios.isAxiosError(err)) {
-                    console.log(err.message);
-                    setErrorMessage(err.message)
-                } else {
-                    console.log("Unexpected error", err);
-                    setErrorMessage("Unexpected error")
-                }
-            }
+        } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        const backendMessage = err.response?.data?.message ?? err.message;
+        console.log(backendMessage);
+        setErrorMessage(backendMessage);
+
+      } else {
+        console.log("Unexpected error", err);
+        setErrorMessage("Unexpected error");
+      }
+    }
     }
 
   return (

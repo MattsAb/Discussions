@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { Bars3Icon } from '@heroicons/react/16/solid';
-import logo from '../assets/react.svg';
 import { useAuth } from '../hooks/authHook'
 
 type HeaderProps = {
@@ -31,6 +30,14 @@ export default function Header({ toggleSidebar }: HeaderProps) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  function showSearch () {
+    if (search !== '')
+    {
+        navigate(`/search?q=${search}`)
+    }
+  }
+
   return (
     <header className="h-16 bg-slate-200 text-black dark:bg-slate-900 dark:text-white flex items-center justify-between px-6 border-b border-black dark:border-slate-500 fixed right-0 left-0 top-0">
       <div className="flex items-center">
@@ -40,8 +47,8 @@ export default function Header({ toggleSidebar }: HeaderProps) {
         >
           <Bars3Icon className="h-6 w-6 text-black dark:text-white" />
         </button>
-        <button className="cursor-pointer" onClick={handleGoBack}>
-          <img src={logo} alt="Logo" className="h-8 w-8" />
+        <button className="cursor-pointer font-bold text-2xl" onClick={handleGoBack}>
+          Disussions
         </button>
       </div>
 
@@ -50,13 +57,18 @@ export default function Header({ toggleSidebar }: HeaderProps) {
           className="h-10 w-72 rounded-2xl border  border-black dark:border-slate-400 px-3 bg-white dark:bg-gray-950"
             type="text"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
           placeholder="Search..."
         />
-        <button className="h-10 p-2 ml-2 bg-white dark:bg-slate-800 rounded-full cursor-pointer dark:active:bg-blue-900">
+        <button className="h-10 p-2 ml-2 bg-white dark:bg-slate-800 rounded-full cursor-pointer dark:active:bg-blue-900"
+        onClick={showSearch}
+        >
           <MagnifyingGlassIcon className="h-5 w-5 text-black dark:text-white" />
         </button>
       </div>
+
       {user ? (
       <div className="relative" ref={menuRef}>
         <button

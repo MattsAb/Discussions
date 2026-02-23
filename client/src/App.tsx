@@ -10,6 +10,7 @@ import Authentication from "./pages/authentication"
 import Header from "./components/header"
 import Sidebar from "./components/sidebar"
 import EditDiscussion from "./pages/editDiscussion"
+import SearchDiscussionList from "./pages/searchDiscussionList"
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -27,10 +28,11 @@ function App() {
         <main className=" md:ml-64">
           <Routes>
             <Route path="/" element={<DiscussionList />} />
+            <Route path="/search" element={<SearchDiscussionList/>} />
             <Route path="/discussions/:id" element={<Discussion />} />
             <Route path="/mydiscussions" element={<MyDiscussions/>} />
-            <Route path="/creatediscussions" element={<CreateDiscussion/>} />
-            <Route path="/editdiscussion/:id" element={<EditDiscussion/>} />
+            <Route path="/create" element={<CreateDiscussion/>} />
+            <Route path="/edit/:id" element={<EditDiscussion/>} />
             <Route path="/auth" element={<Authentication/>} />
           </Routes>
         </main>

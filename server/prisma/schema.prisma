@@ -17,8 +17,8 @@ model User {
   username    String       @unique
   password    String
 
-  discussions Discussion[]   // One user → many discussions
-  comments    Comment[]      // One user → many comments
+  discussions Discussion[]  
+  comments    Comment[] 
 }
 
 model Discussion {

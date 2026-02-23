@@ -17,7 +17,7 @@ export default function MyDiscussionCard ({title, description, numberOfComments,
     const navigate = useNavigate();
 
     function goToEdit () {
-        navigate(`/editdiscussion/${id}`)
+        navigate(`/edit/${id}`)
     }    
 
     async function handleDelete () {

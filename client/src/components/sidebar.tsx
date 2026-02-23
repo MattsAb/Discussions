@@ -12,7 +12,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     const navigate = useNavigate();
 
     function goToCreateDiscussion() {
-    navigate('/creatediscussions')
+    navigate('/create')
     }
 
     function goToMyDiscussions() {
