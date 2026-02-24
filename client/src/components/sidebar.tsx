@@ -1,6 +1,14 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid"
-
+import axios from "axios"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { api } from "../api"
+import { useAuth } from "../hooks/authHook"
+
+type TopDiscussionsType = {
+  id: number
+  title: string
+}
 
 type SidebarProps = {
   isOpen: boolean
@@ -9,16 +17,46 @@ type SidebarProps = {
 
 export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
+    const [topDiscussions, setTopDiscussions] = useState<TopDiscussionsType[]>([])
+    const [topShown, setTopShown] = useState(true);
+
     const navigate = useNavigate();
+    const {user} = useAuth();
 
-    function goToCreateDiscussion() {
-    navigate('/create')
+    const goToCreateDiscussion = () => {
+      if (!user)
+      {
+        navigate('/auth');
+        return;
+      }
+      navigate('/create')}
+
+    const goToMyDiscussions = () => {
+      if (!user)
+      {
+        navigate('/auth');
+        return;
+      }
+      navigate(`/mydiscussions`)
     }
 
-    function goToMyDiscussions() {
-    navigate(`/mydiscussions`)
-    }
+    const goToTopDiscussion = (id: number) => navigate(`/discussions/${id}`)
 
+    useEffect(() => {
+        const getTopDiscussions = async () => {
+            try {
+                const response = await api.get(`/top`);
+                setTopDiscussions(response.data);
+            } catch (err) {
+                if (axios.isAxiosError(err)) {
+                    console.log(err.message);
+                } else {
+                    console.log("Unexpected error", err);
+                }
+            }
+        } 
+        getTopDiscussions()
+  }, []);
 
   return (
     <>
@@ -47,14 +85,31 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             onClick={goToMyDiscussions}
             >My Discussions</button>
         </div>
+
         <div>
-            <div className="flex gap-2">
-                <p> Recent </p>
-                <button className="hover:bg-slate-200 active:bg-slate-100 dark:hover:bg-slate-600 dark:active:bg-blue-900 rounded-full">
+            <div className="flex gap-2 mt-2">
+                <p> Most Popular </p>
+                <button className="hover:bg-slate-200 active:bg-slate-100 dark:hover:bg-slate-600 dark:active:bg-blue-900 rounded-full"
+                onClick={() => setTopShown(!topShown)}
+                >
                     <ChevronDownIcon className="h-4 w-4 text-black dark:text-white" />
                 </button>
             </div>
+
+            {topDiscussions.length > 0 && topShown && (
+
+            <div className="flex flex-col gap-4 items-center mt-3 bg-slate-200 dark:bg-slate-800 py-3 rounded-2xl">
+              {topDiscussions.map((discussion) => (
+                <button className="text-xl hover:bg-sky-100 dark:hover:bg-slate-600 w-full py-1 rounded-2xl wrap-break-word"
+                key={discussion.id}
+                onClick={() => goToTopDiscussion(discussion.id)}
+                > {discussion.title} </button>
+              ))}
+            </div>
+
+          )}
         </div>
+
       </aside>
     </>
   )

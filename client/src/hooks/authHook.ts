@@ -1,4 +1,3 @@
-// Custom hook
 import { createContext, useContext } from "react";
 import type { AuthContextType } from "../types/authTypes";
 

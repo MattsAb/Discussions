@@ -3,16 +3,7 @@ import axios from "axios";
 import { api } from "../api";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
-type Discussion = {
-  id: number;
-  title: string;
-  description: string;
-  _count: {
-    comments: number;
-  };
-};
-
+import type { Discussion } from "../types/discussionTypes";
 
 export default function SearchDiscussionList () {
 
@@ -46,8 +37,8 @@ export default function SearchDiscussionList () {
         <>
 
         <div className="flex justify-center">
-            <div className="flex flex-col items-center w-full max-w-4xl border-x border-black dark:border-slate-600 bg-slate-200 dark:bg-slate-950 px-4">
-                <p className="my-3 text-3xl font-bold dark:text-white text-black"> {query} </p>
+            <div className="flex flex-col items-center w-full max-w-4xl border-x border-b border-black dark:border-slate-600 bg-slate-200 dark:bg-slate-950 px-4">
+                <p className="my-3 text-3xl font-bold dark:text-white text-black"> search by: {query} </p>
                 {!discussions.length ? (<p> {errorMessage}</p>) : (discussions.map((discussion) => (
                 <DiscussionCard
                     key={discussion.id}

@@ -2,16 +2,7 @@ import DiscussionCard from "../components/discussionCard";
 import axios from "axios";
 import { api } from "../api";
 import { useEffect, useState } from "react";
-
-type Discussion = {
-  id: number;
-  title: string;
-  description: string;
-  _count: {
-    comments: number;
-  };
-};
-
+import type { Discussion } from "../types/discussionTypes";
 
 export default function DiscussionList () {
 
@@ -25,8 +16,9 @@ export default function DiscussionList () {
                 setDiscussions(response.data);
             } catch (err) {
                 if (axios.isAxiosError(err)) {
-                    console.log(err.message);
-                    setErrorMessage(err.message)
+                    const backendMessage = err.response?.data?.message ?? err.message;
+                    console.log(backendMessage);
+                    setErrorMessage(backendMessage);
                 } else {
                     console.log("Unexpected error", err);
                     setErrorMessage("Unexpected error")
@@ -37,10 +29,8 @@ export default function DiscussionList () {
   }, []);
 
     return (   
-        <>
-
         <div className="flex justify-center">
-            <div className="flex flex-col items-center w-full max-w-4xl border-x border-black dark:border-slate-600 bg-slate-200 dark:bg-slate-950 px-4">
+            <div className="flex flex-col items-center w-full max-w-4xl border-x border-b border-black dark:border-slate-600 bg-slate-200 dark:bg-slate-950 px-4">
                 <p className="my-3 text-3xl font-bold dark:text-white text-black"> Discussions </p>
                 {!discussions.length ? (<p> {errorMessage}</p>) : (discussions.map((discussion) => (
                 <DiscussionCard
@@ -54,6 +44,5 @@ export default function DiscussionList () {
 
             </div>
         </div>
-        </>
     )
 }

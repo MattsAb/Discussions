@@ -18,7 +18,6 @@ export async function addComment (req, res) {
                 },
                 
             })
-            console.log(addedComment)
 
         res.status(200).json(addedComment);
     } catch (err) {

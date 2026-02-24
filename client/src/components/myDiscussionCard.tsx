@@ -16,9 +16,7 @@ export default function MyDiscussionCard ({title, description, numberOfComments,
 
     const navigate = useNavigate();
 
-    function goToEdit () {
-        navigate(`/edit/${id}`)
-    }    
+    const goToEdit = () => navigate(`/edit/${id}`)
 
     async function handleDelete () {
       try {
@@ -33,7 +31,8 @@ export default function MyDiscussionCard ({title, description, numberOfComments,
 
     return (
         <>
-                <div className="flex flex-col my-5 w-full gap-5 p-5 rounded-3xl cursor-pointer bg-slate-300 dark:bg-slate-800 text-black dark:text-white">
+          <div className="flex flex-col my-5 w-full gap-5 p-5 rounded-3xl cursor-pointer bg-slate-300 dark:bg-slate-800 text-black dark:text-white">
+            
             <p className=" font-bold text-2xl"> {title} </p>
             <p className=""> {description} </p>
 
@@ -60,7 +59,9 @@ export default function MyDiscussionCard ({title, description, numberOfComments,
                 </div>
             </div>
         </div>
-                    {showConfirm && ( <DeleteModal handleDelete={handleDelete} setShowConfirm={setShowConfirm}/>)}
+
+        {showConfirm && ( <DeleteModal handleDelete={handleDelete} setShowConfirm={setShowConfirm}/>)}
+
       </>
     )
 

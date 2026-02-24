@@ -42,7 +42,9 @@ export default function Authentication () {
 
     return (
         <div className="flex flex-col items-center text-black dark:text-white">
+
             <h1 className="font-bold text-3xl my-5">{isRegistered ? 'Log In' : 'Sign Up'}</h1>
+            
             <div className="w-full max-w-2xl flex flex-col gap-8">
                 <div className="flex flex-col gap-8 w-full max-w-2xl rounded-3xl bg-slate-300 dark:bg-slate-800 p-10">
                     <input

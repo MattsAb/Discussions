@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { api } from "../api"; // your axios instance
+import { api } from "../api";
 import type {  User } from "../types/authTypes";
 import { AuthContext } from "../hooks/authHook";
 
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Runs once when app loads
   useEffect(() => {
     const initAuth = async () => {
       const token = localStorage.getItem("token");
@@ -27,7 +27,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
       }
     };
-    console.log('trying to fetch info')
     initAuth();
   }, []);
 

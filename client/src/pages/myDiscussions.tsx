@@ -2,15 +2,7 @@ import { useEffect, useState } from "react";
 import MyDiscussionCard from "../components/myDiscussionCard";
 import axios from "axios";
 import { api } from "../api";
-
-type Discussion = {
-  id: number;
-  title: string;
-  description: string;
-    _count: {
-    comments: number;
-  };
-};
+import type { Discussion } from "../types/discussionTypes";
 
 export default function MyDiscussions () {
 

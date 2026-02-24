@@ -16,6 +16,7 @@ type DiscussionInfo = {
   id: number;
   title: string;
   body: string;
+  author: User;
   comments: CommentType[];
 };
 
@@ -26,17 +27,17 @@ export default function Discussion() {
     id: 0,
     title: "",
     body: "",
+    author: {id: 0, username: ''},
     comments: [],
   });
   const [commentInput, setCommentInput] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Fetch discussion with comments
   useEffect(() => {
     const getDiscussionInfo = async () => {
       try {
         const res = await api.get(`/discussion/${id}`);
-        const discussion = res.data; // backend should return discussion object with comments including author
+        const discussion = res.data;
         setDiscussionInfo(discussion);
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
@@ -51,9 +52,8 @@ export default function Discussion() {
     getDiscussionInfo();
   }, [id]);
 
-  // Handle adding a new comment
   const handleComment = async () => {
-    if (!commentInput.trim()) return; // ignore empty comments
+    if (!commentInput.trim()) return;
     try {
        await api.post(`/comment/add/${id}`, { comment: commentInput });
 
@@ -74,14 +74,15 @@ export default function Discussion() {
 
   return (
     <div className="flex justify-center text-black dark:text-white">
-      <div className="flex flex-col items-center w-full max-w-4xl border-x border-slate-600 px-4">
+
+      <div className="flex flex-col items-center w-full max-w-4xl border-x border-b border-slate-600 px-4">
         <h1 className="font-bold text-2xl my-4">{discussionInfo.title}</h1>
 
-        <div className="bg-slate-300 dark:bg-slate-800 p-4 rounded-3xl mb-10">
+        <div className="bg-slate-300 dark:bg-slate-800 p-4 rounded-3xl mb-10 flex flex-col w-full">
           <p className="my-5">{discussionInfo.body}</p>
+            <p className="flex self-end font-semibold"> by: {discussionInfo.author.username}</p>
         </div>
 
-        {/* Comment input */}
         <div className="flex items-center mb-5 w-full">
           <textarea
             className="flex-1 bg-slate-100 dark:bg-gray-900 rounded-2xl border border-slate-500 p-3 resize-none"
@@ -91,18 +92,19 @@ export default function Discussion() {
             placeholder="Write a comment..."
             maxLength={150}
           />
+
           <button
             className="h-10 p-2 ml-2 bg-slate-200 dark:bg-slate-800 rounded-full cursor-pointer active:bg-blue-300 dark:active:bg-blue-900"
             onClick={handleComment}
           >
             Add comment
           </button>
+          
         </div>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-        {/* Comments list */}
         {discussionInfo.comments.length === 0 ? (
-          <p>No comments yet</p>
+          <p className="mb-5">No comments yet</p>
         ) : (
           discussionInfo.comments.map(comment => (
             <Comment
@@ -114,6 +116,7 @@ export default function Discussion() {
           ))
         )}
       </div>
+
     </div>
   );
 }

@@ -5,16 +5,14 @@ type DiscussionProps = {
     title: string
     description: string
     numberOfComments: number
-
 }
-
 
 export default function DiscussionCard({title, description, numberOfComments, id} : DiscussionProps) {
 
     const navigate = useNavigate()
 
-    function handleClick () {
-        navigate(`/discussions/${id}`);
+    const  handleClick = () => {
+        navigate(`/discussions/${id}`)
     }
 
     return (
@@ -23,12 +21,14 @@ export default function DiscussionCard({title, description, numberOfComments, id
         >
             <p className=" font-bold text-2xl"> {title} </p>
             <p className=""> {description} </p>
+
             <div className="flex gap-3 self-baseline mt-2">
                 <div className="flex self-end bg-slate-200 dark:bg-slate-600 p-2 rounded-2xl gap-1">
                     <p>Comments:</p>
-                <p> {numberOfComments}</p>
+                    <p> {numberOfComments}</p>
                 </div>
             </div>
+
         </button>
     )
 

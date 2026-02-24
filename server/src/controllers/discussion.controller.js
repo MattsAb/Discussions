@@ -25,15 +25,16 @@ export async function getDiscussionInfo (req,res) {
         const { id } = req.params
 
     const disc = await prisma.discussion.findUnique({
-      where: { id: Number(id) },
-        include: {
-            comments: {
+            where: { id: Number(id) },
             include: {
-                author: true,
-            },
-            }
-        },
-        });
+                author: true, 
+                comments: {
+                include: {
+                    author: true,
+                },
+                },
+                },
+                });
         res.status(200).json(disc)
 
 
@@ -190,5 +191,29 @@ export async function getSearchDiscussions (req, res) {
     } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
+    }
+}
+
+export async function getTopDiscussions (req, res) {
+    try {
+    const topDiscussions = await prisma.discussion.findMany({
+        include: {
+            _count: {
+            select: { comments: true }, // include the number of comments
+            },
+            author: true, // optional, include author info if needed
+        },
+        orderBy: {
+            comments: {
+            _count: 'desc', // sort by number of comments descending
+            },
+        },
+        take: 10, // limit to top 10
+        });
+
+        res.json(topDiscussions).status(200);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
     }
 }

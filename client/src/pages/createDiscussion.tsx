@@ -24,40 +24,45 @@ export default function CreateDiscussion() {
           navigate('/');
           
         } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        const backendMessage = err.response?.data?.message ?? err.message;
-        console.log(backendMessage);
-        setErrorMessage(backendMessage);
-
-      } else {
-        console.log("Unexpected error", err);
-        setErrorMessage("Unexpected error");
-      }
-    }
+            if (axios.isAxiosError(err)) {
+              const backendMessage = err.response?.data?.message ?? err.message;
+              console.log(backendMessage);
+              setErrorMessage(backendMessage);
+            } else 
+            {
+              console.log("Unexpected error", err);
+              setErrorMessage("Unexpected error");
+            }
+        }
     }
 
   return (
 
     <div className="flex flex-col items-center gap-10 px-4 py-10 text-black dark:text-white">
+
       <h1 className="text-3xl font-bold">Create a Discussion</h1>
 
       <div className="w-full max-w-2xl flex flex-col gap-8">
 
-
         <div className="flex flex-col gap-3 bg-slate-300 dark:bg-slate-800 p-6 rounded-2xl">
+
           <label className="text-xl font-semibold">Title</label>
           <input
             value={title}
+            maxLength={40}
             onChange={(e) => setTitle(e.target.value)}
             type="text"
             placeholder="Discussion title"
             className="bg-slate-100 dark:bg-slate-700 rounded-xl border border-slate-500 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+
         </div>
 
 
         <div className="flex flex-col gap-3 bg-slate-300 dark:bg-slate-800 p-6 rounded-2xl">
+
           <label className="text-xl font-semibold">Description</label>
+
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -66,11 +71,14 @@ export default function CreateDiscussion() {
             placeholder="Discussion description"
             className="bg-slate-100 dark:bg-slate-700 rounded-xl border border-slate-500 p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+
         </div>
 
 
         <div className="flex flex-col gap-3 bg-slate-300 dark:bg-slate-800 p-6 rounded-2xl">
+
           <label className="text-xl font-semibold">Body</label>
+
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
@@ -79,6 +87,7 @@ export default function CreateDiscussion() {
             className="bg-slate-100 dark:bg-slate-700 rounded-xl border border-slate-500 p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errorMessage ? <p className="text-red-500"> {errorMessage} </p> : <></>}
+
         </div>
 
         <button className="bg-blue-300 hover:bg-blue-200 active:bg-blue-100 dark:bg-blue-600 dark:hover:bg-blue-700 dark:active:bg-blue-800 py-3 rounded-xl font-semibold"
@@ -87,6 +96,7 @@ export default function CreateDiscussion() {
         </button>
 
       </div>
+      
     </div>
   )
 }

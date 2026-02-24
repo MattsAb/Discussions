@@ -1,10 +1,12 @@
 import express from 'express';
 import authMiddleware from '../middleware/auth.js';
-import { createDiscussion, deleteDiscussion, editDiscussion, getDiscussionInfo, getDiscussions, getEditInfo, getMyDiscussions, getSearchDiscussions } from '../controllers/discussion.controller.js';
+import { createDiscussion, deleteDiscussion, editDiscussion, getDiscussionInfo, getDiscussions, getEditInfo, getMyDiscussions, getSearchDiscussions, getTopDiscussions } from '../controllers/discussion.controller.js';
 
 const router = express.Router();
 
 router.get('/', getDiscussions)
+
+router.get('/top', getTopDiscussions)
 
 router.get('/discussion/:id', getDiscussionInfo )
 
