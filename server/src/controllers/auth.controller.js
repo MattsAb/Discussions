@@ -24,7 +24,7 @@ export async function loginUser (req, res)  {
         if (!passwordIsValid) { return res.status(401).send({ message: "Invalid password" }) }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' })
-        res.json({ token })
+        res.status(200).json({ token })
     } catch (err) {
         console.log(err.message)
         res.sendStatus(503)
@@ -47,8 +47,13 @@ export async function registerUser (req, res) {
                 password: hashedPassword
             }
         })
+
+        if (!user || !user.username) {
+        return res.status(400).json({ message: 'invalid user data' })
+        }
+        
         const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
-        res.json({token})
+        res.status(200).json({token})
     } catch (err)
     {
         res.status(500).json({ message: 'internal server error' })

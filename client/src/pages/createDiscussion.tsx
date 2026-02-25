@@ -1,6 +1,5 @@
 import { useState } from "react"
 import axios from "axios";
-import { apiUrl } from "../config";
 import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +14,7 @@ export default function CreateDiscussion() {
 
     async function handleCreate() {
         try {
-          await api.post(`${apiUrl}/create`, {
+          await api.post(`/create`, {
             title: title,
             description: description,
             body: body
